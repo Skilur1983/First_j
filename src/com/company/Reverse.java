@@ -4,12 +4,11 @@ public class Reverse {
 
     public static String reverseString(String incomingString){
         String reversedString = "";
-        char[] charReverse;
-        charReverse = new char[incomingString.length()];
+        char[] charReverse = new char[incomingString.length()];
 
         incomingString.getChars(0, incomingString.length(), charReverse, 0);
         for(int i = 0; i < incomingString.length(); i++){
-            reversedString = reversedString+charReverse[incomingString.length() - (1 + i)];
+            reversedString = reversedString + charReverse[incomingString.length() - (1 + i)];
         }
 
         return reversedString;

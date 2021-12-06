@@ -22,5 +22,9 @@ public class Main {
         for(int i = 0; i < ints.length; i++){
             System.out.println(reversedInts[i]);
         }
+
+        String toAddHyphen = "Hello, friend!";
+        System.out.println(AddString.stringAddRemoveIgnore(toAddHyphen, " ", "!"));
+
     }
 }
