@@ -48,26 +48,4 @@ public class Reverse {
 
         return reversedCharArray;
     }
-
-    public static void main(String[] args) {
-        String reverseMe = "Reverse Me If You Can";
-        int[] ints = {2, 4, 3, 6, 7};
-        System.out.println(reverseString(reverseMe));
-
-        System.out.println("From String to Char Array:");
-        for(int i = 0; i < reverseMe.length(); i++){
-            System.out.print(reverseStringToCharArray(reverseMe)[i]);
-        }
-
-        System.out.println("\nChar Array:");
-        for(int i = 0; i < reverseMe.length(); i++){
-            System.out.print(reverseCharArray(reverseMe.toCharArray())[i]);
-        }
-
-        int[] reversedInts = reverseIntArray(ints);
-        for(int i = 0; i < ints.length; i++){
-            System.out.println(reversedInts[i]);
-        }
-
-    }
 }
