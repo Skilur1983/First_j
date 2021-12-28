@@ -13,7 +13,7 @@ public class EmailDomain {
         while (listOfEmails.contains(separator)) {
             String email = identifyEmailDomain(listOfEmails);
             System.out.println(email);
-            listOfEmails = listOfEmails.substring((listOfEmails.indexOf(';') + 1));
+            listOfEmails = listOfEmails.substring((listOfEmails.indexOf(separator) + 1));
         }
     }
 
