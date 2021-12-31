@@ -15,6 +15,7 @@ public class Dog extends Pet{
         System.out.println("I'm protecting " + master);
     }
 
+    @Override
     public void voice(){
         System.out.println(getName() + " barks");
     }
