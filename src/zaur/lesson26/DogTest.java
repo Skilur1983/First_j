@@ -22,5 +22,8 @@ public class DogTest {
 
         andy.voice();
         andy.protect(); // and we're able to use its specific method
+
+        andy.PetEating(); // as method is static it will show: "Checking if Pet eats", otherwise it would be "Checking if Dog eats"
+        andy.DogEating();
     }
 }

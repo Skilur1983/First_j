@@ -19,4 +19,12 @@ public class Dog extends Pet{
     public void voice(){
         System.out.println(getName() + " barks");
     }
+
+    public static String eat(){ // if it wasn't static it would override the parent method during runtime
+        return "Dog eats";
+    }
+
+    public void DogEating(){
+        System.out.println("Checking if " + eat());
+    }
 }

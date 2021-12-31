@@ -1,5 +1,7 @@
 package zaur.lesson26;
 
+import javafx.animation.Animation;
+
 public class Pet {
     private String name;
     private int age;
@@ -20,11 +22,19 @@ public class Pet {
         this.age = age;
     }
 
-    public void sleep(){
+    public final void sleep(){ // in case method is set final it's impossible to override it
         System.out.println("Sleeping");
     }
 
     public void voice(){
         System.out.println(getName() + " makes a sound");
+    }
+
+    public static String eat(){ // static methods a called Compile time
+        return "Pet eats";
+    }
+
+    public void PetEating() {
+        System.out.println("Checking if " + eat());
     }
 }
