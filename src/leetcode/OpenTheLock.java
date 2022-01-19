@@ -1,11 +1,12 @@
 package leetcode;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 
 public class OpenTheLock {
 
-    static int[] fromStringToDigitsArray(String value) {
+    static int[] fromStringToDigitsArray(String value) { // breaks string into the array of ints
         int[] digits = {0, 0, 0, 0};
         int valueInt = Integer.parseInt(value);
 
@@ -13,18 +14,8 @@ public class OpenTheLock {
             digits[i] = valueInt % 10;
             valueInt = valueInt / 10;
         }
-
         return digits;
     }
-
-    /*static int[] fromStringArrayToIntArray(String[] value) {
-        int[] result = new int[value.length];
-
-        for (int i = 0; i < value.length; i++) {
-            result[i] = Integer.parseInt(value[i]);
-        }
-        return result;
-    }*/
 
     static int numberOfSteps(String target) {
         int count = 0;
@@ -38,33 +29,86 @@ public class OpenTheLock {
         return count;
     }
 
-    static String fromIntArrayToString(int[] numbers) {
+    /*static int[] fromStringArrayToIntArray(String[] value) {
+        int[] result = new int[value.length];
+
+        for (int i = 0; i < value.length; i++) {
+            result[i] = Integer.parseInt(value[i]);
+        }
+        return result;
+    }*/
+
+    static String fromDigitsArrayToString(int[] numbers) {
         return Arrays.toString(numbers).replaceAll(", |\\[|]", "");
     }
 
-    static HashSet<String> locks(String target) {
+    static String[] locksShortWay(String target, int numberOfSteps) {
         String[] digits = new String[4];
         int[] numbers = fromStringToDigitsArray(target);
 
         for (int i = 0; i < numbers.length; i++) {
             if (numbers[i] == 0) {
                 continue;
-            } else if (numbers[i] == 9) {
+            } else if (numbers[i] >= 10 - numberOfSteps) {
                 numbers[i] = 0;
             } else if (numbers[i] < 4) {
-                numbers[i] = numbers[i] - 1;
+                numbers[i] = numbers[i] - numberOfSteps;
             } else {
-                numbers[i] = numbers[i] + 1;
+                numbers[i] = numbers[i] + numberOfSteps;
             }
-            digits[i] = fromIntArrayToString(numbers);
+            digits[i] = fromDigitsArrayToString(numbers);
             numbers[i] = fromStringToDigitsArray(target)[i];
         }
-        HashSet<String> result = new HashSet<>(Arrays.asList(digits));
+
+        return digits;
+    }
+
+    static String[] locksLongWay(String target, int numberOfSteps) {
+        String[] digits = new String[4];
+        int[] numbers = fromStringToDigitsArray(target);
+
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] >= 10 + numberOfSteps) {
+                numbers[i] = 0;
+            } else if (numbers[i] < 4) {
+                numbers[i] = numbers[i] + numberOfSteps;
+            } else {
+                numbers[i] = numbers[i] - numberOfSteps;
+            }
+            digits[i] = fromDigitsArrayToString(numbers);
+            numbers[i] = fromStringToDigitsArray(target)[i];
+        }
+
+        return digits;
+    }
+
+    static HashSet<String> blocksOneMoveAway(String target){
+        HashSet<String> result = new HashSet<>(Arrays.asList(locksShortWay(target, 1)));
+        result.addAll(Arrays.asList(locksLongWay(target, 1)));
         result.remove(null);
+
         return result;
     }
 
-    static String[] bottomLine(String target, int numberOfSteps) {
+    static HashSet<String> blocksTwoMovesAway(String target){
+        HashSet<String> result = new HashSet<>();
+
+        int[] targetDigits = fromStringToDigitsArray(target);
+        String[] twoStepsLimits = new String[8];
+
+        for (int i=0; i < 4; i++){
+            twoStepsLimits[i] = locksShortWay(target, 2)[i];
+            twoStepsLimits[i+4] = locksLongWay(target, 2)[i];
+        }
+
+        for(String s:twoStepsLimits){
+            System.out.println(s);
+        }
+
+        result.remove(null);
+        return result;
+    }
+    /*static String[] bottomLine(String target, int numberOfSteps) {
         String[] blockingDigits = new String[4];
         int[] numbers = fromStringToDigitsArray(target);
 
@@ -74,13 +118,13 @@ public class OpenTheLock {
             } else {
                 numbers[i] = numbers[i] - numberOfSteps;
             }
-            blockingDigits[i] = fromIntArrayToString(numbers);
+            blockingDigits[i] = fromDigitsArrayToString(numbers);
             numbers[i] = fromStringToDigitsArray(target)[i];
         }
         return blockingDigits;
-    }
+    }*/
 
-    static String[] topLine(String target, int numberOfSteps) {
+    /*static String[] topLine(String target, int numberOfSteps) {
         String[] blockingDigits = new String[4];
         int[] numbers = fromStringToDigitsArray(target);
 
@@ -90,21 +134,21 @@ public class OpenTheLock {
             } else {
                 numbers[i] = numbers[i] + numberOfSteps;
             }
-            blockingDigits[i] = fromIntArrayToString(numbers);
+            blockingDigits[i] = fromDigitsArrayToString(numbers);
             numbers[i] = fromStringToDigitsArray(target)[i];
         }
         return blockingDigits;
-    }
+    }*/
 
-    static HashSet<String> lines(String target, int numberOfSteps) { // generates HashSet of values that are away from target
+    /*static HashSet<String> lines(String target, int numberOfSteps) { // generates HashSet of values that are away from target
         HashSet<String> result = new HashSet<>(Arrays.asList(bottomLine(target, numberOfSteps)));
         result.addAll(Arrays.asList(topLine(target, numberOfSteps)));
         result.remove(null);
 
         return result;
-    }
+    }*/
 
-    static HashSet<String> blocksTwoMoves(String target, int numberOfSteps) { // generates HashSet of values that 2 steps away from target
+    /*static HashSet<String> blocksTwoMoves(String target, int numberOfSteps) { // generates HashSet of values that 2 steps away from target
 
         HashSet<String> result = new HashSet<>();
 
@@ -121,9 +165,9 @@ public class OpenTheLock {
             axisY[i+4]= Integer.parseInt(bottomLine(target, numberOfSteps)[i]);
         }
 
-        /*for(int i: axisX){
+        *//*for(int i: axisX){
             System.out.println(i);
-        }*/
+        }*//*
         for (int i = 0; i < axisX.length; i++) {
             if(i<4){
                 plusRow[i]=axisX[i]+step;
@@ -157,13 +201,13 @@ public class OpenTheLock {
         result.addAll(lines(target,2));
         result.remove(target);
         return result;
-    }
+    }*/
 
     public static int movesToOpenLock(String[] deadends, String target) {
         HashSet<String> setOfDeadends = new HashSet<>(Arrays.asList(deadends));
-        if (setOfDeadends.containsAll(lines(target, 1)) || setOfDeadends.containsAll(blocksTwoMoves(target, 2))|| setOfDeadends.contains("0000")) {
+        if (/*setOfDeadends.containsAll(lines(target, 1)) || setOfDeadends.containsAll(blocksTwoMoves(target, 2))||*/ setOfDeadends.contains("0000")) {
             return -1;
-        } else if (setOfDeadends.containsAll(locks(target))) {
+        } else if (setOfDeadends.containsAll(Arrays.asList(locksShortWay(target, 1)))) {
             return numberOfSteps(target) + 2;
         } else {
             return numberOfSteps(target);
@@ -172,12 +216,29 @@ public class OpenTheLock {
 
     public static void main(String[] args) {
 
-        String target = "5555";
+        /*String target = "5555";
         String[] deadends = {"5557", "5553", "5575", "5535", "5755", "5355", "7555", "3555", "6655", "6455", "4655", "4455", "5665", "5445", "5645", "5465", "5566", "5544", "5564", "5546", "6565", "4545", "6545", "4565", "5656", "5454", "5654", "5456", "6556", "4554", "4556", "6554"};
 
-        System.out.println(movesToOpenLock(deadends, target));
+        System.out.println(movesToOpenLock(deadends, target));*/
 
         /*for (String s : blocksTwoMoves("5555", 2)) {
+            System.out.println(s);
+        }*/
+
+        for(String s: blocksTwoMovesAway("5555")){
+            System.out.println(s);
+        }
+        System.out.println("=========================");
+
+        /*for(String s: blocksOneMoveAway("5555")){
+            System.out.println(s);
+        }
+        System.out.println("=========================");*/
+
+        /*for(String s:topLine("8898", 1)){
+            System.out.println(s);
+        }*/
+        /*for(String s:bottomLine("0011", 1)){
             System.out.println(s);
         }*/
 
