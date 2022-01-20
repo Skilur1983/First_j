@@ -101,7 +101,11 @@ public class OpenTheLock {
 
     public static int movesToOpenLock(String[] deadends, String target) {
         HashSet<String> setOfDeadends = new HashSet<>(Arrays.asList(deadends));
-        if (setOfDeadends.containsAll(blocksOneMoveAway(target)) || setOfDeadends.containsAll(blocksTwoMovesAway(target)) || setOfDeadends.contains("0000")) {
+        String[] blockers = {"1000", "0100", "0010", "0001", "9000", "0900", "0090", "0009"};
+        HashSet<String> startBlocker = new HashSet<>(Arrays.asList(blockers));
+        if (target.equals("0000")) {
+            return 0;
+        } else if (setOfDeadends.containsAll(blocksOneMoveAway(target)) || setOfDeadends.containsAll(blocksTwoMovesAway(target)) || setOfDeadends.contains("0000") || setOfDeadends.containsAll(startBlocker)) {
             return -1;
         } else if (setOfDeadends.containsAll(locksShortWay(target))) {
             return numberOfSteps(target) + 2;
@@ -112,8 +116,8 @@ public class OpenTheLock {
 
     public static void main(String[] args) {
 
-        String target = "0202";
-        String[] deadends = {"1000","0100","0010","0001","9000","0900","0090","0009"};
+        String target = "0000";
+        String[] deadends = {"1000", "0100", "0010", "0001", "9000", "0900", "0090", "0009"};
 
         System.out.println(movesToOpenLock(deadends, target));
 
