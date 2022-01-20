@@ -1,7 +1,5 @@
 package zaur.lesson26;
 
-import javafx.animation.Animation;
-
 public class Pet {
     private String name;
     private int age;
